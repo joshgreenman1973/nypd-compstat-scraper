@@ -76,7 +76,7 @@ ADDITIONAL_CATEGORIES = [
 ]
 
 
-def download_excel(filename: str) -> bytes | None:
+def download_excel(filename: str) -> bytes:
     """Download an Excel file from the NYPD website. Returns bytes or None on failure."""
     url = f"{BASE_URL}/{filename}"
     try:
@@ -91,11 +91,77 @@ def download_excel(filename: str) -> bytes | None:
 
 def build_column_mapping(df: pd.DataFrame) -> dict:
     """
-    Dynamically discover column positions by scanning header rows for known labels.
-    This is more resilient than hardcoding column indices — if NYPD ever inserts
-    or reorders columns, the parser adapts rather than silently producing wrong numbers.
+    Dynamically discover column positions by scanning header rows.
+    
+    Strategy: Find the sub-header row containing year numbers (e.g., 2026, 2025)
+    repeated in a pattern. This row directly maps to data column positions,
+    unlike the merged-cell header labels ("Week to Date", "28 Day") which
+    pandas may read at shifted positions.
+    
+    Falls back to header text labels if the year pattern isn't found.
     """
     mapping = {}
+    current_year = datetime.utcnow().year
+
+    # Strategy 1: Find the row with repeating year numbers (most reliable)
+    for idx in range(min(15, len(df))):
+        row_vals = list(df.iloc[idx])
+        year_positions = []
+        for col_idx, val in enumerate(row_vals):
+            try:
+                num = int(float(str(val).strip()))
+                if num in (current_year, current_year - 1, current_year + 1):
+                    year_positions.append((col_idx, num))
+            except (ValueError, TypeError):
+                pass
+
+        # The NYPD year row has a pattern like: 2026, 2025, %Chg, 2026, 2025, %Chg, ...
+        # We need at least 4 year values (2 pairs for WTD and 28-day)
+        if len(year_positions) >= 4:
+            # Group into triplets: (current_year_col, prior_year_col, pct_col)
+            groups = []
+            i = 0
+            while i < len(year_positions) - 1:
+                curr_col, curr_yr = year_positions[i]
+                next_col, next_yr = year_positions[i + 1]
+                # Current year should be followed by prior year
+                if curr_yr >= next_yr and next_col == curr_col + 1:
+                    groups.append({
+                        "current": curr_col,
+                        "prior": next_col,
+                        "pct": next_col + 1,
+                    })
+                    i += 2
+                else:
+                    i += 1
+
+            if len(groups) >= 3:
+                mapping["wtd_current"] = groups[0]["current"]
+                mapping["wtd_prior"] = groups[0]["prior"]
+                mapping["wtd_pct"] = groups[0]["pct"]
+                mapping["28d_current"] = groups[1]["current"]
+                mapping["28d_prior"] = groups[1]["prior"]
+                mapping["28d_pct"] = groups[1]["pct"]
+                mapping["ytd_current"] = groups[2]["current"]
+                mapping["ytd_prior"] = groups[2]["prior"]
+                mapping["ytd_pct"] = groups[2]["pct"]
+
+                # The remaining single columns after the 3 triplets are % change columns
+                last_pct_col = groups[2]["pct"]
+                remaining_cols = [col_idx for col_idx in range(last_pct_col + 1, len(row_vals))
+                                  if pd.notna(row_vals[col_idx])]
+                if len(remaining_cols) >= 1:
+                    mapping["2yr_pct"] = remaining_cols[0]
+                if len(remaining_cols) >= 2:
+                    mapping["long_term_1_pct"] = remaining_cols[1]
+                if len(remaining_cols) >= 3:
+                    mapping["long_term_2_pct"] = remaining_cols[2]
+
+                logger.info(f"Column mapping (year-row strategy): WTD@{mapping.get('wtd_current')}, "
+                            f"28D@{mapping.get('28d_current')}, YTD@{mapping.get('ytd_current')}")
+                return mapping
+
+    # Strategy 2: Fall back to header text labels
     for idx in range(min(10, len(df))):
         row_strs = [str(v).lower().strip() for v in df.iloc[idx]]
         for col_idx, val in enumerate(row_strs):
@@ -117,6 +183,10 @@ def build_column_mapping(df: pd.DataFrame) -> dict:
                 mapping["long_term_1_pct"] = col_idx
             elif any(x in val for x in ("33 yr", "33 year", "32 yr", "32 year")):
                 mapping["long_term_2_pct"] = col_idx
+
+    if mapping:
+        logger.info(f"Column mapping (header-text strategy): {mapping}")
+
     return mapping
 
 
@@ -154,12 +224,15 @@ def parse_compstat_excel(content: bytes, source_label: str = "Citywide") -> dict
     if not col_map:
         logger.warning(f"Could not discover column layout for {source_label}; falling back to positional.")
 
-    # Find the data rows by looking for crime category labels
+# Find the data rows by looking for crime category labels
     for idx, row in df.iterrows():
         label = clean_label(row.iloc[0]) if pd.notna(row.iloc[0]) else ""
         
         if not label:
             continue
+
+        if "historical perspective" in label.lower():
+            break
 
         # Match against known categories
         matched_category = match_category(label, SEVEN_MAJOR + ["TOTAL"] + ADDITIONAL_CATEGORIES)
@@ -212,7 +285,7 @@ def clean_label(val) -> str:
     return s
 
 
-def match_category(label: str, categories: list) -> str | None:
+def match_category(label: str, categories: list) -> str:
     """Match a cell label to a known crime category."""
     label_lower = label.lower().strip()
     for cat in categories:
