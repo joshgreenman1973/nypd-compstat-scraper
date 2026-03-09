@@ -150,7 +150,8 @@ def extract_report_period(df: pd.DataFrame) -> dict:
     period = {"raw": "", "week_start": "", "week_end": ""}
     for idx in range(min(10, len(df))):
         row_text = " ".join(str(v) for v in df.iloc[idx] if pd.notna(v))
-        date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})\s+Through\s+(\d{1,2}/\d{1,2}/\d{4})', row_text)
+        # Added re.IGNORECASE to prevent crashes if the NYPD changes capitalization
+        date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})\s+Through\s+(\d{1,2}/\d{1,2}/\d{4})', row_text, re.IGNORECASE)
         if date_match:
             period["week_start"], period["week_end"] = date_match.group(1), date_match.group(2)
             period["raw"] = date_match.group(0)
@@ -196,10 +197,31 @@ def extract_row_data(row: pd.Series, col_map: dict) -> dict:
                 }
     return data
 
+def write_csv(result: dict, output_dir: Path):
+    """Restores the CSV generation logic."""
+    rows = []
+    if "citywide" in result:
+        cw = result["citywide"]
+        geo = cw.get("source", "Citywide")
+        for category in ["seven_major_felonies", "additional_stats"]:
+            for crime, stats in cw.get(category, {}).items():
+                row = {"geography": geo, "crime": crime}
+                for period, p_data in stats.items():
+                    if isinstance(p_data, dict):
+                        for k, v in p_data.items():
+                            row[f"{period}_{k}"] = v
+                rows.append(row)
+    if rows:
+        df = pd.DataFrame(rows)
+        csv_path = output_dir / "latest_compstat.csv"
+        df.to_csv(csv_path, index=False)
+        logger.info(f"Updated {csv_path}")
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", "-o", type=str, default="./data")
-    args = parser.parse_args()
+    parser.add_argument("--format", type=str, default="both") # Restored the format argument
+    args, unknown = parser.parse_known_args() # Prevents crashing on unexpected GitHub commands
     
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -218,14 +240,16 @@ def main():
         json.dump(result, f, indent=2)
     logger.info(f"Updated {json_path}")
 
+    # Restored CSV output
+    if args.format in ("csv", "both"):
+        write_csv(result, output_dir)
+
     # 2. ARCHIVING & INDEXING Logic
-    # FIX: Added .get() methods to prevent KeyErrors if the spreadsheet format changes
-    # or if the initial parse_compstat_excel step fails and returns an empty dict.
     week_end = result.get("citywide", {}).get("report_period", {}).get("week_end")
     
     if week_end:
         try:
-            date_obj = datetime.strptime(week_end, "%m/%d/%Y")
+            date_obj = datetime.strptime(week_end.strip(), "%m/%d/%Y")
             date_str = date_obj.strftime("%Y-%m-%d")
             
             archive_dir = output_dir / "archive"
@@ -243,14 +267,16 @@ def main():
                 try:
                     with open(index_path, "r") as f: 
                         history = json.load(f)
+                    if not isinstance(history, list):
+                        history = []
                 except json.JSONDecodeError:
                     logger.warning("Corrupted index.json found. Creating a new one.")
                     history = []
             
-            if not any(h['date'] == date_str for h in history):
+            if not any(h.get('date') == date_str for h in history):
                 history.append({
                     "date": date_str, 
-                    "label": f"Week Ending {week_end}", 
+                    "label": f"Week Ending {week_end.strip()}", 
                     "path": f"archive/{date_str}.json"
                 })
                 history.sort(key=lambda x: x['date'], reverse=True)
