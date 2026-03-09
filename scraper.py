@@ -3,9 +3,10 @@
 NYPD CompStat Crime Data Scraper - Final Version
 Features: 
 - Dynamic column mapping to handle NYPD header changes
+- Full Borough processing and 28-day data extraction
 - Historical data protection (prevents 1990s totals from overwriting weekly stats)
 - Automated archiving and index.json generation for Dashboard history
-- Python 3.9 compatibility (uses standard type hints or removes modern Union syntax)
+- Python 3.9 compatibility
 """
 
 import argparse
@@ -16,7 +17,6 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Dict, Any
 
 import pandas as pd
 import requests
@@ -33,6 +33,17 @@ HEADERS = {
 }
 
 CITYWIDE_FILE = "cs-en-us-city.xlsx"
+
+BOROUGH_FILES = {
+    "Manhattan South": "cs-en-us-pbms.xlsx",
+    "Manhattan North": "cs-en-us-pbmn.xlsx",
+    "Bronx": "cs-en-us-pbbx.xlsx",
+    "Brooklyn South": "cs-en-us-pbbks.xlsx",
+    "Brooklyn North": "cs-en-us-pbbkn.xlsx",
+    "Queens South": "cs-en-us-pbqs.xlsx",
+    "Queens North": "cs-en-us-pbqn.xlsx",
+    "Staten Island": "cs-en-us-pbsi.xlsx",
+}
 
 # The 7 Major Felonies (Index Crimes)
 SEVEN_MAJOR = ["Murder", "Rape", "Robbery", "Fel. Assault", "Burglary", "Gr. Larceny", "G.L.A."]
@@ -84,10 +95,14 @@ def build_column_mapping(df: pd.DataFrame):
                     i += 2
                 else:
                     i += 1
+            # Ensure we capture WTD, 28-Day, and YTD metrics
             if len(groups) >= 3:
                 mapping["wtd_current"] = groups[0]["current"]
                 mapping["wtd_prior"] = groups[0]["prior"]
                 mapping["wtd_pct"] = groups[0]["pct"]
+                mapping["28d_current"] = groups[1]["current"]
+                mapping["28d_prior"] = groups[1]["prior"]
+                mapping["28d_pct"] = groups[1]["pct"]
                 mapping["ytd_current"] = groups[2]["current"]
                 mapping["ytd_prior"] = groups[2]["prior"]
                 mapping["ytd_pct"] = groups[2]["pct"]
@@ -99,6 +114,8 @@ def build_column_mapping(df: pd.DataFrame):
         for col_idx, val in enumerate(row_strs):
             if "week to date" in val or "w-t-d" in val:
                 mapping["wtd_current"], mapping["wtd_prior"], mapping["wtd_pct"] = col_idx, col_idx+1, col_idx+2
+            elif "28 day" in val:
+                mapping["28d_current"], mapping["28d_prior"], mapping["28d_pct"] = col_idx, col_idx+1, col_idx+2
             elif "year to date" in val or "y-t-d" in val:
                 mapping["ytd_current"], mapping["ytd_prior"], mapping["ytd_pct"] = col_idx, col_idx+1, col_idx+2
     return mapping
@@ -126,10 +143,9 @@ def parse_compstat_excel(content: bytes, source_label: str = "Citywide") -> dict
         label = str(row.iloc[0]).strip() if pd.notna(row.iloc[0]) else ""
         if not label: continue
         
-        # KEY FIX: Stop processing when we hit the historical section.
+        # Stop processing when we hit the historical section.
         # This prevents 1990s totals from overwriting current weekly stats.
         if "historical perspective" in label.lower():
-            logger.info("Reached historical section; stopping main parse.")
             break
 
         matched_category = match_category(label, SEVEN_MAJOR + ["TOTAL"] + ADDITIONAL_CATEGORIES)
@@ -146,15 +162,21 @@ def parse_compstat_excel(content: bytes, source_label: str = "Citywide") -> dict
     return result
 
 def extract_report_period(df: pd.DataFrame) -> dict:
-    """Finds the 'Through' date range in the sheet."""
-    period = {"raw": "", "week_start": "", "week_end": ""}
+    """Finds the 'Through' date range and volume info in the sheet."""
+    period = {"raw": "", "week_start": "", "week_end": "", "volume": "", "number": ""}
     for idx in range(min(10, len(df))):
         row_text = " ".join(str(v) for v in df.iloc[idx] if pd.notna(v))
-        # Added re.IGNORECASE to prevent crashes if the NYPD changes capitalization
+        
         date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})\s+Through\s+(\d{1,2}/\d{1,2}/\d{4})', row_text, re.IGNORECASE)
         if date_match:
             period["week_start"], period["week_end"] = date_match.group(1), date_match.group(2)
             period["raw"] = date_match.group(0)
+            
+        vol_match = re.search(r'Vol\.\s*(\d+)\s*No\.\s*(\d+)', row_text, re.IGNORECASE)
+        if vol_match:
+            period["volume"] = vol_match.group(1)
+            period["number"] = vol_match.group(2)
+            
     return period
 
 def match_category(label: str, categories: list):
@@ -188,7 +210,8 @@ def extract_row_data(row: pd.Series, col_map: dict) -> dict:
     values = list(row)
     data = {}
     if col_map:
-        for k, p in [("wtd", "week_to_date"), ("ytd", "year_to_date")]:
+        # Includes the 28-day data points required by your pipeline
+        for k, p in [("wtd", "week_to_date"), ("28d", "twenty_eight_day"), ("ytd", "year_to_date")]:
             if f"{k}_current" in col_map:
                 data[p] = {
                     "current_year": safe_num(values[col_map[f"{k}_current"]]),
@@ -198,19 +221,27 @@ def extract_row_data(row: pd.Series, col_map: dict) -> dict:
     return data
 
 def write_csv(result: dict, output_dir: Path):
-    """Restores the CSV generation logic."""
+    """Transforms the JSON payload into a flat CSV format matching your schema."""
     rows = []
-    if "citywide" in result:
-        cw = result["citywide"]
-        geo = cw.get("source", "Citywide")
+    # Loop over Citywide and all Boroughs
+    for geo, geo_data in result.items():
+        # Only process if we successfully parsed the data
+        if not isinstance(geo_data, dict) or "source" not in geo_data:
+            continue
+            
+        geography_label = geo_data.get("source", geo.title())
+        
         for category in ["seven_major_felonies", "additional_stats"]:
-            for crime, stats in cw.get(category, {}).items():
-                row = {"geography": geo, "crime": crime}
+            for crime, stats in geo_data.get(category, {}).items():
+                row = {"geography": geography_label, "crime": crime}
                 for period, p_data in stats.items():
                     if isinstance(p_data, dict):
                         for k, v in p_data.items():
-                            row[f"{period}_{k}"] = v
+                            # Reverts 'current_year' to 'current' for CSV compatibility
+                            k_csv = k.replace("_year", "")
+                            row[f"{period}_{k_csv}"] = v
                 rows.append(row)
+                
     if rows:
         df = pd.DataFrame(rows)
         csv_path = output_dir / "latest_compstat.csv"
@@ -220,33 +251,43 @@ def write_csv(result: dict, output_dir: Path):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", "-o", type=str, default="./data")
-    parser.add_argument("--format", type=str, default="both") # Restored the format argument
-    args, unknown = parser.parse_known_args() # Prevents crashing on unexpected GitHub commands
+    parser.add_argument("--format", type=str, default="both")
+    # Parse known args prevents crashing if GitHub Action passes unexpected flags
+    args, unknown = parser.parse_known_args() 
     
     output_dir = Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    result = {}
+
+    # 1. Scrape Citywide Data
     logger.info("Scraping citywide CompStat data...")
-    content = download_excel(CITYWIDE_FILE)
-    if not content:
-        logger.error("Could not download file.")
-        return
-    
-    result = {"citywide": parse_compstat_excel(content, "Citywide")}
-    
-    # 1. Save latest file
+    city_content = download_excel(CITYWIDE_FILE)
+    if city_content:
+        result["citywide"] = parse_compstat_excel(city_content, "Citywide")
+    else:
+        logger.error("Failed to download Citywide file. Exiting to trigger Action failure.")
+        sys.exit(1)
+
+    # 2. Scrape Borough Data (Restored loop)
+    for borough_name, filename in BOROUGH_FILES.items():
+        logger.info(f"Scraping {borough_name} data...")
+        b_content = download_excel(filename)
+        if b_content:
+            result[borough_name] = parse_compstat_excel(b_content, borough_name)
+
+    # 3. Output Latest JSON
     json_path = output_dir / "latest_compstat.json"
     with open(json_path, "w") as f:
         json.dump(result, f, indent=2)
     logger.info(f"Updated {json_path}")
 
-    # Restored CSV output
+    # 4. Output Latest CSV
     if args.format in ("csv", "both"):
         write_csv(result, output_dir)
 
-    # 2. ARCHIVING & INDEXING Logic
+    # 5. Archiving & Indexing Logic
     week_end = result.get("citywide", {}).get("report_period", {}).get("week_end")
-    
     if week_end:
         try:
             date_obj = datetime.strptime(week_end.strip(), "%m/%d/%Y")
@@ -255,12 +296,10 @@ def main():
             archive_dir = output_dir / "archive"
             archive_dir.mkdir(parents=True, exist_ok=True)
             
-            # Save dated archive JSON
             archive_path = archive_dir / f"{date_str}.json"
             with open(archive_path, "w") as f:
                 json.dump(result, f, indent=2)
 
-            # Update index.json (The Table of Contents for the Dashboard)
             index_path = output_dir / "index.json"
             history = []
             if index_path.exists():
