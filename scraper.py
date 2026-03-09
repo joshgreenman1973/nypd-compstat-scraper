@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-NYPD CompStat Crime Data Scraper - Final Version
+NYPD CompStat Crime Data Scraper - Final Version (Citywide, Boroughs, & 77 Precincts)
 Features: 
-- Dynamic column mapping to handle NYPD header changes
-- Full Borough processing and 28-day data extraction
-- Historical data protection (prevents 1990s totals from overwriting weekly stats)
-- Automated archiving and index.json generation for Dashboard history
-- Python 3.9 compatibility
+- Scrapes Citywide, 8 Patrol Boroughs, and all 77 active NYPD Precincts.
+- Dynamic column mapping to handle NYPD header changes.
+- Historical data protection (prevents 1990s totals from overwriting current stats).
+- Python 3.9 compatibility.
 """
 
 import argparse
@@ -21,7 +20,6 @@ from pathlib import Path
 import pandas as pd
 import requests
 
-# Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
 
@@ -45,26 +43,38 @@ BOROUGH_FILES = {
     "Staten Island": "cs-en-us-pbsi.xlsx",
 }
 
-# The 7 Major Felonies (Index Crimes)
+# The 77 active NYPD Precincts
+PRECINCTS = [
+    1, 5, 6, 7, 9, 10, 13, 14, 17, 18, 19, 20, 23, 24, 25, 26, 28, 30, 32, 33, 34,
+    40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 52,
+    60, 61, 62, 63, 66, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 81, 83, 84, 88, 90, 94,
+    100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115,
+    120, 121, 122, 123
+]
+
 SEVEN_MAJOR = ["Murder", "Rape", "Robbery", "Fel. Assault", "Burglary", "Gr. Larceny", "G.L.A."]
 
-# Additional QoL and specific incident categories
 ADDITIONAL_CATEGORIES = [
     "Transit", "Housing", "Petit Larceny", "Retail Theft",
     "Misd. Assault", "UCR Rape*", "Other Sex Crimes",
     "Shooting Vic.", "Shooting Inc.", "Hate Crimes", "Traffic Fatalities"
 ]
 
+def get_ordinal(n):
+    """Formats 1 to 1st, 2 to 2nd, 3 to 3rd, etc."""
+    if 11 <= (n % 100) <= 13:
+        return f"{n}th"
+    return f"{n}{['th', 'st', 'nd', 'rd', 'th'][min(n % 10, 4)]}"
+
 def download_excel(filename: str):
     """Download an Excel file from the NYPD website."""
     url = f"{BASE_URL}/{filename}"
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=30)
+        resp = requests.get(url, headers=HEADERS, timeout=15)
         resp.raise_for_status()
-        logger.info(f"Downloaded {filename} ({len(resp.content):,} bytes)")
         return resp.content
     except requests.RequestException as e:
-        logger.error(f"Failed to download {filename}: {e}")
+        logger.warning(f"Failed to download {filename}: {e}")
         return None
 
 def build_column_mapping(df: pd.DataFrame):
@@ -72,7 +82,6 @@ def build_column_mapping(df: pd.DataFrame):
     mapping = {}
     current_year = datetime.utcnow().year
 
-    # Strategy 1: Look for numeric year values in the first 15 rows
     for idx in range(min(15, len(df))):
         row_vals = list(df.iloc[idx])
         year_positions = []
@@ -95,7 +104,6 @@ def build_column_mapping(df: pd.DataFrame):
                     i += 2
                 else:
                     i += 1
-            # Ensure we capture WTD, 28-Day, and YTD metrics
             if len(groups) >= 3:
                 mapping["wtd_current"] = groups[0]["current"]
                 mapping["wtd_prior"] = groups[0]["prior"]
@@ -108,7 +116,7 @@ def build_column_mapping(df: pd.DataFrame):
                 mapping["ytd_pct"] = groups[2]["pct"]
                 return mapping
 
-    # Strategy 2: Fallback to text matching
+    # Fallback to text matching
     for idx in range(min(10, len(df))):
         row_strs = [str(v).lower().strip() for v in df.iloc[idx]]
         for col_idx, val in enumerate(row_strs):
@@ -143,8 +151,7 @@ def parse_compstat_excel(content: bytes, source_label: str = "Citywide") -> dict
         label = str(row.iloc[0]).strip() if pd.notna(row.iloc[0]) else ""
         if not label: continue
         
-        # Stop processing when we hit the historical section.
-        # This prevents 1990s totals from overwriting current weekly stats.
+        # Stop processing when hitting the 1990s historical section
         if "historical perspective" in label.lower():
             break
 
@@ -162,11 +169,9 @@ def parse_compstat_excel(content: bytes, source_label: str = "Citywide") -> dict
     return result
 
 def extract_report_period(df: pd.DataFrame) -> dict:
-    """Finds the 'Through' date range and volume info in the sheet."""
     period = {"raw": "", "week_start": "", "week_end": "", "volume": "", "number": ""}
     for idx in range(min(10, len(df))):
         row_text = " ".join(str(v) for v in df.iloc[idx] if pd.notna(v))
-        
         date_match = re.search(r'(\d{1,2}/\d{1,2}/\d{4})\s+Through\s+(\d{1,2}/\d{1,2}/\d{4})', row_text, re.IGNORECASE)
         if date_match:
             period["week_start"], period["week_end"] = date_match.group(1), date_match.group(2)
@@ -180,25 +185,17 @@ def extract_report_period(df: pd.DataFrame) -> dict:
     return period
 
 def match_category(label: str, categories: list):
-    """Matches a row label to a known crime category."""
     label_lower = label.lower().strip()
     for cat in categories:
         if label_lower == cat.lower() or label_lower.startswith(cat.lower()):
             return cat
     
-    variations = {
-        "felony assault": "Fel. Assault", 
-        "gla": "G.L.A.", 
-        "grand larceny": "Gr. Larceny", 
-        "shooting victims": "Shooting Vic.",
-        "grand larceny auto": "G.L.A."
-    }
+    variations = {"felony assault": "Fel. Assault", "gla": "G.L.A.", "grand larceny": "Gr. Larceny", "shooting victims": "Shooting Vic.", "grand larceny auto": "G.L.A."}
     for var, cat in variations.items():
         if var in label_lower: return cat
     return None
 
 def extract_row_data(row: pd.Series, col_map: dict) -> dict:
-    """Extracts numeric values based on column mapping."""
     def safe_num(val):
         if pd.isna(val): return None
         try:
@@ -210,7 +207,6 @@ def extract_row_data(row: pd.Series, col_map: dict) -> dict:
     values = list(row)
     data = {}
     if col_map:
-        # Includes the 28-day data points required by your pipeline
         for k, p in [("wtd", "week_to_date"), ("28d", "twenty_eight_day"), ("ytd", "year_to_date")]:
             if f"{k}_current" in col_map:
                 data[p] = {
@@ -221,27 +217,20 @@ def extract_row_data(row: pd.Series, col_map: dict) -> dict:
     return data
 
 def write_csv(result: dict, output_dir: Path):
-    """Transforms the JSON payload into a flat CSV format matching your schema."""
     rows = []
-    # Loop over Citywide and all Boroughs
     for geo, geo_data in result.items():
-        # Only process if we successfully parsed the data
         if not isinstance(geo_data, dict) or "source" not in geo_data:
             continue
-            
         geography_label = geo_data.get("source", geo.title())
-        
         for category in ["seven_major_felonies", "additional_stats"]:
             for crime, stats in geo_data.get(category, {}).items():
                 row = {"geography": geography_label, "crime": crime}
                 for period, p_data in stats.items():
                     if isinstance(p_data, dict):
                         for k, v in p_data.items():
-                            # Reverts 'current_year' to 'current' for CSV compatibility
                             k_csv = k.replace("_year", "")
                             row[f"{period}_{k_csv}"] = v
                 rows.append(row)
-                
     if rows:
         df = pd.DataFrame(rows)
         csv_path = output_dir / "latest_compstat.csv"
@@ -252,7 +241,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", "-o", type=str, default="./data")
     parser.add_argument("--format", type=str, default="both")
-    # Parse known args prevents crashing if GitHub Action passes unexpected flags
     args, unknown = parser.parse_known_args() 
     
     output_dir = Path(args.output)
@@ -260,33 +248,42 @@ def main():
 
     result = {}
 
-    # 1. Scrape Citywide Data
+    # 1. Scrape Citywide
     logger.info("Scraping citywide CompStat data...")
     city_content = download_excel(CITYWIDE_FILE)
     if city_content:
         result["citywide"] = parse_compstat_excel(city_content, "Citywide")
     else:
-        logger.error("Failed to download Citywide file. Exiting to trigger Action failure.")
+        logger.error("Failed to download Citywide file. Exiting.")
         sys.exit(1)
 
-    # 2. Scrape Borough Data (Restored loop)
+    # 2. Scrape Boroughs
     for borough_name, filename in BOROUGH_FILES.items():
         logger.info(f"Scraping {borough_name} data...")
         b_content = download_excel(filename)
         if b_content:
             result[borough_name] = parse_compstat_excel(b_content, borough_name)
 
-    # 3. Output Latest JSON
+    # 3. Scrape ALL 77 Precincts
+    logger.info("Scraping 77 precinct files. This may take a minute...")
+    for pct in PRECINCTS:
+        filename = f"cs-en-us-{pct:03d}pct.xlsx"
+        label = f"{get_ordinal(pct)} Precinct"
+        p_content = download_excel(filename)
+        if p_content:
+            result[label] = parse_compstat_excel(p_content, label)
+
+    # 4. Output Latest JSON
     json_path = output_dir / "latest_compstat.json"
     with open(json_path, "w") as f:
         json.dump(result, f, indent=2)
     logger.info(f"Updated {json_path}")
 
-    # 4. Output Latest CSV
+    # 5. Output Latest CSV
     if args.format in ("csv", "both"):
         write_csv(result, output_dir)
 
-    # 5. Archiving & Indexing Logic
+    # 6. Archiving & Indexing Logic
     week_end = result.get("citywide", {}).get("report_period", {}).get("week_end")
     if week_end:
         try:
@@ -304,12 +301,9 @@ def main():
             history = []
             if index_path.exists():
                 try:
-                    with open(index_path, "r") as f: 
-                        history = json.load(f)
-                    if not isinstance(history, list):
-                        history = []
+                    with open(index_path, "r") as f: history = json.load(f)
+                    if not isinstance(history, list): history = []
                 except json.JSONDecodeError:
-                    logger.warning("Corrupted index.json found. Creating a new one.")
                     history = []
             
             if not any(h.get('date') == date_str for h in history):
@@ -319,10 +313,9 @@ def main():
                     "path": f"archive/{date_str}.json"
                 })
                 history.sort(key=lambda x: x['date'], reverse=True)
-                with open(index_path, "w") as f: 
-                    json.dump(history, f, indent=2)
+                with open(index_path, "w") as f: json.dump(history, f, indent=2)
             
-            logger.info(f"Archive and index updated for {date_str}")
+            logger.info(f"Archive updated for {date_str}")
         except Exception as e:
             logger.error(f"Archiving failed: {e}")
 
