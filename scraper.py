@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-NYPD CompStat Crime Data Scraper - Final Version
+NYPD CompStat Crime Data Scraper - Final Version (With Historical Data)
 Features: 
 - Scrapes Citywide, 8 Patrol Boroughs, and 77 Precincts.
-- Bulletproofed for strict GitHub Actions (accepts legacy args, enforces 28-day keys).
+- Extracts WTD, 28-Day, YTD, and Historical (2yr, 14yr, 31yr) percentages.
+- Bulletproofed for strict GitHub Actions (accepts legacy args).
 - Python 3.9 compatibility.
 """
 
@@ -81,7 +82,21 @@ def build_column_mapping(df: pd.DataFrame):
                 mapping["28d_current"], mapping["28d_prior"], mapping["28d_pct"] = col_idx, col_idx+1, col_idx+2
             elif "year to date" in val or "y-t-d" in val:
                 mapping["ytd_current"], mapping["ytd_prior"], mapping["ytd_pct"] = col_idx, col_idx+1, col_idx+2
-    
+            # Historical Columns
+            elif "2 yr" in val:
+                mapping["hist_2yr"] = col_idx
+            elif "14 yr" in val or "13 yr" in val or "15 yr" in val:
+                mapping["hist_14yr"] = col_idx
+            elif "31 yr" in val or "30 yr" in val or "32 yr" in val or "33 yr" in val:
+                mapping["hist_31yr"] = col_idx
+
+    # If we found YTD but didn't explicitly find the historical text headers,
+    # they are almost always the 3 columns immediately following YTD Pct.
+    if "ytd_pct" in mapping:
+        if "hist_2yr" not in mapping: mapping["hist_2yr"] = mapping["ytd_pct"] + 1
+        if "hist_14yr" not in mapping: mapping["hist_14yr"] = mapping["ytd_pct"] + 2
+        if "hist_31yr" not in mapping: mapping["hist_31yr"] = mapping["ytd_pct"] + 3
+
     if "wtd_current" in mapping and "ytd_current" in mapping:
         return mapping
 
@@ -117,6 +132,11 @@ def build_column_mapping(df: pd.DataFrame):
                 mapping["ytd_current"] = groups[2]["current"]
                 mapping["ytd_prior"] = groups[2]["prior"]
                 mapping["ytd_pct"] = groups[2]["pct"]
+                
+                # Assume historical columns follow YTD
+                mapping["hist_2yr"] = groups[2]["pct"] + 1
+                mapping["hist_14yr"] = groups[2]["pct"] + 2
+                mapping["hist_31yr"] = groups[2]["pct"] + 3
                 return mapping
     return mapping
 
@@ -182,8 +202,9 @@ def extract_row_data(row: pd.Series, col_map: dict) -> dict:
 
     values = list(row)
     data = {}
+    
+    # Extract WTD, 28-Day, and YTD
     for k, p in [("wtd", "week_to_date"), ("28d", "twenty_eight_day"), ("ytd", "year_to_date")]:
-        # PREVENT VALIDATION FAILURES: Always initialize the period block
         data[p] = {"current_year": None, "prior_year": None, "pct_change": None}
         if col_map and f"{k}_current" in col_map:
             try:
@@ -194,6 +215,20 @@ def extract_row_data(row: pd.Series, col_map: dict) -> dict:
                 }
             except IndexError:
                 pass
+                
+    # Extract Historical Percentages
+    data["historical"] = {"2_yr_pct": None, "14_yr_pct": None, "31_yr_pct": None}
+    if col_map:
+        try:
+            if "hist_2yr" in col_map and col_map["hist_2yr"] < len(values):
+                data["historical"]["2_yr_pct"] = safe_num(values[col_map["hist_2yr"]])
+            if "hist_14yr" in col_map and col_map["hist_14yr"] < len(values):
+                data["historical"]["14_yr_pct"] = safe_num(values[col_map["hist_14yr"]])
+            if "hist_31yr" in col_map and col_map["hist_31yr"] < len(values):
+                data["historical"]["31_yr_pct"] = safe_num(values[col_map["hist_31yr"]])
+        except IndexError:
+            pass
+
     return data
 
 def write_csv(result: dict, output_dir: Path):
