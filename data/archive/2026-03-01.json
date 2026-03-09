@@ -1,13 +1,10 @@
 {
   "citywide": {
     "source": "Citywide",
-    "scraped_at": "2026-03-09T01:47:40.310730Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -339,13 +336,10 @@
   },
   "Manhattan South": {
     "source": "Manhattan South",
-    "scraped_at": "2026-03-09T01:47:40.441501Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -677,13 +671,10 @@
   },
   "Manhattan North": {
     "source": "Manhattan North",
-    "scraped_at": "2026-03-09T01:47:40.559184Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -1015,13 +1006,10 @@
   },
   "Bronx": {
     "source": "Bronx",
-    "scraped_at": "2026-03-09T01:47:40.648767Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -1353,13 +1341,10 @@
   },
   "Queens South": {
     "source": "Queens South",
-    "scraped_at": "2026-03-09T01:47:41.503494Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -1691,13 +1676,10 @@
   },
   "Queens North": {
     "source": "Queens North",
-    "scraped_at": "2026-03-09T01:47:41.620275Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -2029,13 +2011,10 @@
   },
   "Staten Island": {
     "source": "Staten Island",
-    "scraped_at": "2026-03-09T01:47:41.713058Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -2367,13 +2346,10 @@
   },
   "1st Precinct": {
     "source": "1st Precinct",
-    "scraped_at": "2026-03-09T01:47:41.820081Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -2705,13 +2681,10 @@
   },
   "5th Precinct": {
     "source": "5th Precinct",
-    "scraped_at": "2026-03-09T01:47:41.948347Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -3043,13 +3016,10 @@
   },
   "6th Precinct": {
     "source": "6th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.074622Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -3381,13 +3351,10 @@
   },
   "7th Precinct": {
     "source": "7th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.165754Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -3719,13 +3686,10 @@
   },
   "9th Precinct": {
     "source": "9th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.278861Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -4057,13 +4021,10 @@
   },
   "10th Precinct": {
     "source": "10th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.417053Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -4395,13 +4356,10 @@
   },
   "13th Precinct": {
     "source": "13th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.506922Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -4733,13 +4691,10 @@
   },
   "14th Precinct": {
     "source": "14th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.629477Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -5071,13 +5026,10 @@
   },
   "17th Precinct": {
     "source": "17th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.759751Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -5409,13 +5361,10 @@
   },
   "18th Precinct": {
     "source": "18th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.867257Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -5747,13 +5696,10 @@
   },
   "19th Precinct": {
     "source": "19th Precinct",
-    "scraped_at": "2026-03-09T01:47:42.966851Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -6085,13 +6031,10 @@
   },
   "20th Precinct": {
     "source": "20th Precinct",
-    "scraped_at": "2026-03-09T01:47:43.095611Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -6423,13 +6366,10 @@
   },
   "23rd Precinct": {
     "source": "23rd Precinct",
-    "scraped_at": "2026-03-09T01:47:43.177744Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -6761,13 +6701,10 @@
   },
   "24th Precinct": {
     "source": "24th Precinct",
-    "scraped_at": "2026-03-09T01:47:43.274116Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -7099,13 +7036,10 @@
   },
   "25th Precinct": {
     "source": "25th Precinct",
-    "scraped_at": "2026-03-09T01:47:43.383319Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -7437,13 +7371,10 @@
   },
   "26th Precinct": {
     "source": "26th Precinct",
-    "scraped_at": "2026-03-09T01:47:43.495831Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -7775,13 +7706,10 @@
   },
   "28th Precinct": {
     "source": "28th Precinct",
-    "scraped_at": "2026-03-09T01:47:43.768629Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -8113,13 +8041,10 @@
   },
   "30th Precinct": {
     "source": "30th Precinct",
-    "scraped_at": "2026-03-09T01:47:43.855288Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -8451,13 +8376,10 @@
   },
   "32nd Precinct": {
     "source": "32nd Precinct",
-    "scraped_at": "2026-03-09T01:47:44.035096Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -8789,13 +8711,10 @@
   },
   "33rd Precinct": {
     "source": "33rd Precinct",
-    "scraped_at": "2026-03-09T01:47:44.169160Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -9127,13 +9046,10 @@
   },
   "34th Precinct": {
     "source": "34th Precinct",
-    "scraped_at": "2026-03-09T01:47:44.327572Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -9465,13 +9381,10 @@
   },
   "40th Precinct": {
     "source": "40th Precinct",
-    "scraped_at": "2026-03-09T01:47:44.426298Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -9803,13 +9716,10 @@
   },
   "41st Precinct": {
     "source": "41st Precinct",
-    "scraped_at": "2026-03-09T01:47:44.573344Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -10141,13 +10051,10 @@
   },
   "42nd Precinct": {
     "source": "42nd Precinct",
-    "scraped_at": "2026-03-09T01:47:44.670883Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -10479,13 +10386,10 @@
   },
   "43rd Precinct": {
     "source": "43rd Precinct",
-    "scraped_at": "2026-03-09T01:47:44.798652Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -10817,13 +10721,10 @@
   },
   "44th Precinct": {
     "source": "44th Precinct",
-    "scraped_at": "2026-03-09T01:47:44.933580Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -11155,13 +11056,10 @@
   },
   "45th Precinct": {
     "source": "45th Precinct",
-    "scraped_at": "2026-03-09T01:47:45.023319Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -11493,13 +11391,10 @@
   },
   "46th Precinct": {
     "source": "46th Precinct",
-    "scraped_at": "2026-03-09T01:47:45.128132Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -11831,13 +11726,10 @@
   },
   "47th Precinct": {
     "source": "47th Precinct",
-    "scraped_at": "2026-03-09T01:47:45.251199Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -12169,13 +12061,10 @@
   },
   "48th Precinct": {
     "source": "48th Precinct",
-    "scraped_at": "2026-03-09T01:47:45.386652Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -12507,13 +12396,10 @@
   },
   "49th Precinct": {
     "source": "49th Precinct",
-    "scraped_at": "2026-03-09T01:47:45.477951Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -12845,13 +12731,10 @@
   },
   "50th Precinct": {
     "source": "50th Precinct",
-    "scraped_at": "2026-03-09T01:47:45.639647Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -13183,13 +13066,10 @@
   },
   "52nd Precinct": {
     "source": "52nd Precinct",
-    "scraped_at": "2026-03-09T01:47:45.727717Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -13521,13 +13401,10 @@
   },
   "60th Precinct": {
     "source": "60th Precinct",
-    "scraped_at": "2026-03-09T01:47:45.820563Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -13859,13 +13736,10 @@
   },
   "61st Precinct": {
     "source": "61st Precinct",
-    "scraped_at": "2026-03-09T01:47:46.004247Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -14197,13 +14071,10 @@
   },
   "62nd Precinct": {
     "source": "62nd Precinct",
-    "scraped_at": "2026-03-09T01:47:46.120215Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -14535,13 +14406,10 @@
   },
   "63rd Precinct": {
     "source": "63rd Precinct",
-    "scraped_at": "2026-03-09T01:47:46.204248Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -14873,13 +14741,10 @@
   },
   "66th Precinct": {
     "source": "66th Precinct",
-    "scraped_at": "2026-03-09T01:47:46.342195Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -15211,13 +15076,10 @@
   },
   "67th Precinct": {
     "source": "67th Precinct",
-    "scraped_at": "2026-03-09T01:47:46.444246Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -15549,13 +15411,10 @@
   },
   "68th Precinct": {
     "source": "68th Precinct",
-    "scraped_at": "2026-03-09T01:47:46.561387Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -15887,13 +15746,10 @@
   },
   "69th Precinct": {
     "source": "69th Precinct",
-    "scraped_at": "2026-03-09T01:47:46.644442Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -16225,13 +16081,10 @@
   },
   "70th Precinct": {
     "source": "70th Precinct",
-    "scraped_at": "2026-03-09T01:47:46.743202Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -16563,13 +16416,10 @@
   },
   "71st Precinct": {
     "source": "71st Precinct",
-    "scraped_at": "2026-03-09T01:47:46.858260Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -16901,13 +16751,10 @@
   },
   "72nd Precinct": {
     "source": "72nd Precinct",
-    "scraped_at": "2026-03-09T01:47:46.962264Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -17239,13 +17086,10 @@
   },
   "73rd Precinct": {
     "source": "73rd Precinct",
-    "scraped_at": "2026-03-09T01:47:47.110942Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -17577,13 +17421,10 @@
   },
   "75th Precinct": {
     "source": "75th Precinct",
-    "scraped_at": "2026-03-09T01:47:47.282113Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -17915,13 +17756,10 @@
   },
   "76th Precinct": {
     "source": "76th Precinct",
-    "scraped_at": "2026-03-09T01:47:47.373565Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -18253,13 +18091,10 @@
   },
   "77th Precinct": {
     "source": "77th Precinct",
-    "scraped_at": "2026-03-09T01:47:47.477249Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -18591,13 +18426,10 @@
   },
   "78th Precinct": {
     "source": "78th Precinct",
-    "scraped_at": "2026-03-09T01:47:47.580908Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -18929,13 +18761,10 @@
   },
   "79th Precinct": {
     "source": "79th Precinct",
-    "scraped_at": "2026-03-09T01:47:47.717657Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -19267,13 +19096,10 @@
   },
   "81st Precinct": {
     "source": "81st Precinct",
-    "scraped_at": "2026-03-09T01:47:47.858867Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -19605,13 +19431,10 @@
   },
   "83rd Precinct": {
     "source": "83rd Precinct",
-    "scraped_at": "2026-03-09T01:47:47.962316Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -19943,13 +19766,10 @@
   },
   "84th Precinct": {
     "source": "84th Precinct",
-    "scraped_at": "2026-03-09T01:47:48.074167Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -20281,13 +20101,10 @@
   },
   "88th Precinct": {
     "source": "88th Precinct",
-    "scraped_at": "2026-03-09T01:47:48.225963Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -20619,13 +20436,10 @@
   },
   "90th Precinct": {
     "source": "90th Precinct",
-    "scraped_at": "2026-03-09T01:47:48.336201Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -20957,13 +20771,10 @@
   },
   "94th Precinct": {
     "source": "94th Precinct",
-    "scraped_at": "2026-03-09T01:47:48.535743Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -21295,13 +21106,10 @@
   },
   "100th Precinct": {
     "source": "100th Precinct",
-    "scraped_at": "2026-03-09T01:47:48.695808Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -21633,13 +21441,10 @@
   },
   "101st Precinct": {
     "source": "101st Precinct",
-    "scraped_at": "2026-03-09T01:47:48.823079Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -21971,13 +21776,10 @@
   },
   "102nd Precinct": {
     "source": "102nd Precinct",
-    "scraped_at": "2026-03-09T01:47:48.923861Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -22309,13 +22111,10 @@
   },
   "103rd Precinct": {
     "source": "103rd Precinct",
-    "scraped_at": "2026-03-09T01:47:49.046985Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -22647,13 +22446,10 @@
   },
   "104th Precinct": {
     "source": "104th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.132019Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -22985,13 +22781,10 @@
   },
   "105th Precinct": {
     "source": "105th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.219822Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -23323,13 +23116,10 @@
   },
   "106th Precinct": {
     "source": "106th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.314735Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -23661,13 +23451,10 @@
   },
   "107th Precinct": {
     "source": "107th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.417667Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -23999,13 +23786,10 @@
   },
   "108th Precinct": {
     "source": "108th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.546036Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -24337,13 +24121,10 @@
   },
   "109th Precinct": {
     "source": "109th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.667032Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -24675,13 +24456,10 @@
   },
   "110th Precinct": {
     "source": "110th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.778722Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -25013,13 +24791,10 @@
   },
   "111th Precinct": {
     "source": "111th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.878646Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -25351,13 +25126,10 @@
   },
   "112th Precinct": {
     "source": "112th Precinct",
-    "scraped_at": "2026-03-09T01:47:49.988857Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -25689,13 +25461,10 @@
   },
   "113th Precinct": {
     "source": "113th Precinct",
-    "scraped_at": "2026-03-09T01:47:50.125926Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -26027,13 +25796,10 @@
   },
   "114th Precinct": {
     "source": "114th Precinct",
-    "scraped_at": "2026-03-09T01:47:50.325554Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -26365,13 +26131,10 @@
   },
   "115th Precinct": {
     "source": "115th Precinct",
-    "scraped_at": "2026-03-09T01:47:50.496737Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -26703,13 +26466,10 @@
   },
   "120th Precinct": {
     "source": "120th Precinct",
-    "scraped_at": "2026-03-09T01:47:50.717490Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -27041,13 +26801,10 @@
   },
   "121st Precinct": {
     "source": "121st Precinct",
-    "scraped_at": "2026-03-09T01:47:50.915320Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -27379,13 +27136,10 @@
   },
   "122nd Precinct": {
     "source": "122nd Precinct",
-    "scraped_at": "2026-03-09T01:47:51.390718Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
@@ -27717,13 +27471,10 @@
   },
   "123rd Precinct": {
     "source": "123rd Precinct",
-    "scraped_at": "2026-03-09T01:47:51.478951Z",
     "report_period": {
       "raw": "2/23/2026  Through  3/1/2026",
       "week_start": "2/23/2026",
-      "week_end": "3/1/2026",
-      "volume": "",
-      "number": ""
+      "week_end": "3/1/2026"
     },
     "seven_major_felonies": {
       "Murder": {
