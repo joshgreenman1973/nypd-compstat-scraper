@@ -9,6 +9,7 @@ Features:
 """
 
 import argparse
+import io
 import json
 import logging
 import re
@@ -105,7 +106,7 @@ def build_column_mapping(df: pd.DataFrame):
 def parse_compstat_excel(content: bytes, source_label: str = "Citywide") -> dict:
     """Core logic to turn the spreadsheet into structured data."""
     try:
-        df = pd.read_excel(pd.io.common.BytesIO(content), header=None, engine="openpyxl")
+        df = pd.read_excel(io.BytesIO(content), header=None, engine="openpyxl")
     except Exception as e:
         logger.error(f"Failed to parse Excel for {source_label}: {e}")
         return {}
@@ -218,7 +219,10 @@ def main():
     logger.info(f"Updated {json_path}")
 
     # 2. ARCHIVING & INDEXING Logic
-    week_end = result["citywide"]["report_period"]["week_end"]
+    # FIX: Added .get() methods to prevent KeyErrors if the spreadsheet format changes
+    # or if the initial parse_compstat_excel step fails and returns an empty dict.
+    week_end = result.get("citywide", {}).get("report_period", {}).get("week_end")
+    
     if week_end:
         try:
             date_obj = datetime.strptime(week_end, "%m/%d/%Y")
@@ -236,8 +240,12 @@ def main():
             index_path = output_dir / "index.json"
             history = []
             if index_path.exists():
-                with open(index_path, "r") as f: 
-                    history = json.load(f)
+                try:
+                    with open(index_path, "r") as f: 
+                        history = json.load(f)
+                except json.JSONDecodeError:
+                    logger.warning("Corrupted index.json found. Creating a new one.")
+                    history = []
             
             if not any(h['date'] == date_str for h in history):
                 history.append({
