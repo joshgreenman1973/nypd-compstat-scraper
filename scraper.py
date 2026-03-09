@@ -269,6 +269,20 @@ def main():
     if city_content: result["citywide"] = parse_compstat_excel(city_content, "Citywide")
     else: sys.exit(1)
 
+    # NEW: Early exit if data hasn't changed
+    json_path = output_dir / "latest_compstat.json"
+    if json_path.exists():
+        try:
+            with open(json_path, "r") as f:
+                existing_data = json.load(f)
+                existing_date = existing_data.get("citywide", {}).get("report_period", {}).get("week_end")
+                new_date = result["citywide"].get("report_period", {}).get("week_end")
+                if existing_date and new_date and existing_date == new_date:
+                    logger.info(f"Data for week ending {new_date} is already up to date. Exiting early.")
+                    sys.exit(0)
+        except Exception as e:
+            logger.warning(f"Could not read existing data to compare dates: {e}")
+
     for borough_name, filename in BOROUGH_FILES.items():
         b_content = download_excel(filename)
         if b_content: result[borough_name] = parse_compstat_excel(b_content, borough_name)
