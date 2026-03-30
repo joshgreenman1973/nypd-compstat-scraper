@@ -60,8 +60,15 @@ def get_ordinal(n):
 
 def download_excel(filename: str):
     url = f"{BASE_URL}/{filename}"
+    # Cache-bust to avoid stale CDN responses on GitHub Actions runners
+    cache_bust_headers = {
+        **HEADERS,
+        "Cache-Control": "no-cache, no-store",
+        "Pragma": "no-cache",
+    }
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=15)
+        resp = requests.get(url, headers=cache_bust_headers, timeout=30,
+                            params={"_": int(datetime.utcnow().timestamp())})
         resp.raise_for_status()
         return resp.content
     except requests.RequestException as e:
