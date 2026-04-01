@@ -53,5 +53,6 @@ jobs:
           else
             WEEK=$(python -c "import json; d=json.load(open('data/latest_compstat.json')); print(d.get('citywide',{}).get('report_period',{}).get('week_end','unknown'))")
             git commit -m "Update CompStat data: week ending ${WEEK}"
+            git pull --rebase
             git push
           fi
