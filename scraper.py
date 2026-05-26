@@ -291,14 +291,40 @@ def main():
         except Exception as e:
             logger.warning(f"Could not read existing data to compare dates: {e}")
 
+    missing_boroughs = []
     for borough_name, filename in BOROUGH_FILES.items():
         b_content = download_excel(filename)
-        if b_content: result[borough_name] = parse_compstat_excel(b_content, borough_name)
+        if b_content:
+            result[borough_name] = parse_compstat_excel(b_content, borough_name)
+        else:
+            missing_boroughs.append(borough_name)
 
     logger.info("Scraping 77 precinct files...")
+    precinct_count = 0
     for pct in PRECINCTS:
         p_content = download_excel(f"cs-en-us-{pct:03d}pct.xlsx")
-        if p_content: result[f"{get_ordinal(pct)} Precinct"] = parse_compstat_excel(p_content, f"{get_ordinal(pct)} Precinct")
+        if p_content:
+            result[f"{get_ordinal(pct)} Precinct"] = parse_compstat_excel(p_content, f"{get_ordinal(pct)} Precinct")
+            precinct_count += 1
+
+    # Validation: refuse to overwrite good data with a partial scrape. A silent NYPD URL
+    # rename (e.g. the Brooklyn pbbkn->pbbn change) previously dropped boroughs unnoticed.
+    captured_boroughs = len(BOROUGH_FILES) - len(missing_boroughs)
+    MIN_PRECINCTS = 70  # NYPD publishes ~77; tolerate a few transient 404s but not a wholesale failure.
+    errors = []
+    if missing_boroughs:
+        errors.append(f"missing {len(missing_boroughs)} of {len(BOROUGH_FILES)} patrol boroughs: {', '.join(missing_boroughs)} "
+                      f"(check whether NYPD renamed their workbook files at {BASE_URL})")
+    if precinct_count < MIN_PRECINCTS:
+        errors.append(f"only {precinct_count} of {len(PRECINCTS)} precinct files scraped (expected >= {MIN_PRECINCTS})")
+    if not result.get("citywide", {}).get("seven_major_felonies"):
+        errors.append("citywide data is missing its seven_major_felonies block")
+    if errors:
+        logger.error("Validation failed; NOT overwriting existing data:")
+        for e in errors:
+            logger.error(f"  - {e}")
+        sys.exit(1)
+    logger.info(f"Validation passed: {captured_boroughs}/{len(BOROUGH_FILES)} boroughs, {precinct_count}/{len(PRECINCTS)} precincts.")
 
     json_path = output_dir / "latest_compstat.json"
     with open(json_path, "w") as f: json.dump(result, f, indent=2)
