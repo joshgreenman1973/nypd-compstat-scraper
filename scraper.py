@@ -34,8 +34,8 @@ CITYWIDE_FILE = "cs-en-us-city.xlsx"
 
 BOROUGH_FILES = {
     "Manhattan South": "cs-en-us-pbms.xlsx", "Manhattan North": "cs-en-us-pbmn.xlsx",
-    "Bronx": "cs-en-us-pbbx.xlsx", "Brooklyn South": "cs-en-us-pbbks.xlsx",
-    "Brooklyn North": "cs-en-us-pbbkn.xlsx", "Queens South": "cs-en-us-pbqs.xlsx",
+    "Bronx": "cs-en-us-pbbx.xlsx", "Brooklyn South": "cs-en-us-pbbs.xlsx",
+    "Brooklyn North": "cs-en-us-pbbn.xlsx", "Queens South": "cs-en-us-pbqs.xlsx",
     "Queens North": "cs-en-us-pbqn.xlsx", "Staten Island": "cs-en-us-pbsi.xlsx",
 }
 
@@ -264,6 +264,7 @@ def main():
     # CRITICAL FIX: Accept workflow legacy arguments to prevent crashes
     parser.add_argument("--boroughs", action="store_true")
     parser.add_argument("--housing", action="store_true")
+    parser.add_argument("--force", action="store_true", help="Re-scrape and rewrite even if the week-ending date is unchanged.")
     args, unknown = parser.parse_known_args() 
     
     output_dir = Path(args.output)
@@ -276,9 +277,9 @@ def main():
     if city_content: result["citywide"] = parse_compstat_excel(city_content, "Citywide")
     else: sys.exit(1)
 
-    # NEW: Early exit if data hasn't changed
+    # NEW: Early exit if data hasn't changed (skipped with --force)
     json_path = output_dir / "latest_compstat.json"
-    if json_path.exists():
+    if json_path.exists() and not args.force:
         try:
             with open(json_path, "r") as f:
                 existing_data = json.load(f)
