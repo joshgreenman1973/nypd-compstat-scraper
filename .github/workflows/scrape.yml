@@ -2,15 +2,19 @@ name: Scrape NYPD CompStat
 
 on:
   # NYPD publishes weekly CompStat data Monday–Tuesday after the reporting week ends Sunday.
-  # Run multiple times to catch it as early as possible, plus a Wednesday safety net:
-  #   Monday 6 PM ET (22:00 UTC) — catches early publications
-  #   Tuesday 8 AM ET (12:00 UTC) — morning check
-  #   Tuesday 6 PM ET (22:00 UTC) — afternoon check
-  #   Wednesday 12 PM ET (16:00 UTC) — safety net for late publications
+  # Check early and often on Monday (when data usually lands), then taper through Wednesday.
+  # No-op runs that find no new week just exit without committing, so extra checks are free.
+  # Times below are ET during EDT (UTC-4); they shift one hour earlier during EST.
+  #   Monday   9 AM, 12 PM, 3 PM, 6 PM ET — catch the Monday publication ASAP
+  #   Tuesday  9 AM, 3 PM ET            — backup if NYPD publishes late Monday/Tuesday
+  #   Wednesday 12 PM ET                — final safety net
   schedule:
+    - cron: '0 13 * * 1'
+    - cron: '0 16 * * 1'
+    - cron: '0 19 * * 1'
     - cron: '0 22 * * 1'
-    - cron: '0 12 * * 2'
-    - cron: '0 22 * * 2'
+    - cron: '0 13 * * 2'
+    - cron: '0 19 * * 2'
     - cron: '0 16 * * 3'
   
   # Also allow manual trigger from GitHub UI
