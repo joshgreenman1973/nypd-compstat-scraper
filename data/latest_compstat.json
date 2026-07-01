@@ -9029,6 +9029,436 @@
       }
     }
   },
+  "22nd Precinct": {
+    "source": "22nd Precinct",
+    "report_period": {
+      "raw": "6/22/2026  Through  6/28/2026",
+      "week_start": "6/22/2026",
+      "week_end": "6/28/2026"
+    },
+    "seven_major_felonies": {
+      "Murder": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": -100
+        }
+      },
+      "Rape": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 1,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 3,
+          "prior_year": 1,
+          "pct_change": 200
+        },
+        "historical": {
+          "2_yr_pct": 50,
+          "14_yr_pct": 50,
+          "31_yr_pct": -25
+        }
+      },
+      "Robbery": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 1,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 7,
+          "prior_year": 2,
+          "pct_change": 250
+        },
+        "historical": {
+          "2_yr_pct": -69.565217391304,
+          "14_yr_pct": -50,
+          "31_yr_pct": -91.139240506329
+        }
+      },
+      "Fel. Assault": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 1.0,
+          "pct_change": -100
+        },
+        "twenty_eight_day": {
+          "current_year": 3,
+          "prior_year": 2,
+          "pct_change": 50
+        },
+        "year_to_date": {
+          "current_year": 6,
+          "prior_year": 8,
+          "pct_change": -25
+        },
+        "historical": {
+          "2_yr_pct": -14.285714285714,
+          "14_yr_pct": 500,
+          "31_yr_pct": -72.727272727272
+        }
+      },
+      "Burglary": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": -100,
+          "31_yr_pct": -100
+        }
+      },
+      "Gr. Larceny": {
+        "week_to_date": {
+          "current_year": 2,
+          "prior_year": 1.0,
+          "pct_change": 100
+        },
+        "twenty_eight_day": {
+          "current_year": 7,
+          "prior_year": 3,
+          "pct_change": 133.333333333333
+        },
+        "year_to_date": {
+          "current_year": 16,
+          "prior_year": 18,
+          "pct_change": -11.111111111111
+        },
+        "historical": {
+          "2_yr_pct": -40.74074074074,
+          "14_yr_pct": -50,
+          "31_yr_pct": -78.947368421052
+        }
+      },
+      "G.L.A.": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 2,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": -50
+        }
+      }
+    },
+    "total_seven_major": {
+      "week_to_date": {
+        "current_year": 2,
+        "prior_year": 2.0,
+        "pct_change": 0
+      },
+      "twenty_eight_day": {
+        "current_year": 12,
+        "prior_year": 5,
+        "pct_change": 140
+      },
+      "year_to_date": {
+        "current_year": 34,
+        "prior_year": 29,
+        "pct_change": 17.241379310344
+      },
+      "historical": {
+        "2_yr_pct": -42.372881355932,
+        "14_yr_pct": -33.333333333333,
+        "31_yr_pct": -83.168316831683
+      }
+    },
+    "additional_stats": {
+      "Transit": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Housing": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Petit Larceny": {
+        "week_to_date": {
+          "current_year": 1,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 10,
+          "prior_year": 3,
+          "pct_change": 233.333333333333
+        },
+        "year_to_date": {
+          "current_year": 21,
+          "prior_year": 12,
+          "pct_change": 75
+        },
+        "historical": {
+          "2_yr_pct": 31.25,
+          "14_yr_pct": -32.258064516129,
+          "31_yr_pct": null
+        }
+      },
+      "Retail Theft": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 1,
+          "pct_change": -100
+        },
+        "year_to_date": {
+          "current_year": 1,
+          "prior_year": 1,
+          "pct_change": 0
+        },
+        "historical": {
+          "2_yr_pct": -50,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Misd. Assault": {
+        "week_to_date": {
+          "current_year": 1,
+          "prior_year": 1.0,
+          "pct_change": 0
+        },
+        "twenty_eight_day": {
+          "current_year": 2,
+          "prior_year": 5,
+          "pct_change": -60
+        },
+        "year_to_date": {
+          "current_year": 16,
+          "prior_year": 13,
+          "pct_change": 23.076923076923
+        },
+        "historical": {
+          "2_yr_pct": -5.882352941176,
+          "14_yr_pct": 33.333333333333,
+          "31_yr_pct": null
+        }
+      },
+      "UCR Rape*": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 2,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 4,
+          "prior_year": 2,
+          "pct_change": 100
+        },
+        "historical": {
+          "2_yr_pct": 33.333333333333,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Other Sex Crimes": {
+        "week_to_date": {
+          "current_year": 1,
+          "prior_year": 1.0,
+          "pct_change": 0
+        },
+        "twenty_eight_day": {
+          "current_year": 2,
+          "prior_year": 3,
+          "pct_change": -33.333333333333
+        },
+        "year_to_date": {
+          "current_year": 8,
+          "prior_year": 10,
+          "pct_change": -20
+        },
+        "historical": {
+          "2_yr_pct": 166.666666666667,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Shooting Vic.": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Shooting Inc.": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Hate Crimes": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 0,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "year_to_date": {
+          "current_year": 1,
+          "prior_year": 0,
+          "pct_change": null
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      },
+      "Traffic Fatalities": {
+        "week_to_date": {
+          "current_year": 0,
+          "prior_year": 0.0,
+          "pct_change": null
+        },
+        "twenty_eight_day": {
+          "current_year": 1,
+          "prior_year": 1,
+          "pct_change": 0
+        },
+        "year_to_date": {
+          "current_year": 1,
+          "prior_year": 1,
+          "pct_change": 0
+        },
+        "historical": {
+          "2_yr_pct": null,
+          "14_yr_pct": null,
+          "31_yr_pct": null
+        }
+      }
+    }
+  },
   "23rd Precinct": {
     "source": "23rd Precinct",
     "report_period": {
