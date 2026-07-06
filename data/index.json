@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-07-05",
+    "label": "Week Ending 7/5/2026",
+    "path": "archive/2026-07-05.json"
+  },
+  {
     "date": "2026-06-28",
     "label": "Week Ending 6/28/2026",
     "path": "archive/2026-06-28.json"
