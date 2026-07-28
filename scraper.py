@@ -34,16 +34,20 @@ CITYWIDE_FILE = "cs-en-us-city.xlsx"
 
 BOROUGH_FILES = {
     "Manhattan South": "cs-en-us-pbms.xlsx", "Manhattan North": "cs-en-us-pbmn.xlsx",
-    "Bronx": "cs-en-us-pbbx.xlsx", "Brooklyn South": "cs-en-us-pbbs.xlsx",
-    "Brooklyn North": "cs-en-us-pbbn.xlsx", "Queens South": "cs-en-us-pbqs.xlsx",
-    "Queens North": "cs-en-us-pbqn.xlsx", "Staten Island": "cs-en-us-pbsi.xlsx",
+    # NYPD split Patrol Borough Bronx on 5/20/2026 into North (46, 47, 48, 49, 50, 52) and
+    # South (40, 41, 42, 43, 44, 45). The old pbbx.xlsx URL still returns 200 with a stale
+    # report — do not restore it; a 200 with old data is worse than a 404.
+    "Bronx North": "cs-en-us-pbxn.xlsx", "Bronx South": "cs-en-us-pbxs.xlsx",
+    "Brooklyn South": "cs-en-us-pbbs.xlsx", "Brooklyn North": "cs-en-us-pbbn.xlsx",
+    "Queens South": "cs-en-us-pbqs.xlsx", "Queens North": "cs-en-us-pbqn.xlsx",
+    "Staten Island": "cs-en-us-pbsi.xlsx",
 }
 
 PRECINCTS = [
     1, 5, 6, 7, 9, 10, 13, 14, 17, 18, 19, 20, 22, 23, 24, 25, 26, 28, 30, 32, 33, 34,
     40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 52,
     60, 61, 62, 63, 66, 67, 68, 69, 70, 71, 72, 73, 75, 76, 77, 78, 79, 81, 83, 84, 88, 90, 94,
-    100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115,
+    100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
     120, 121, 122, 123
 ]
 
@@ -299,7 +303,7 @@ def main():
         else:
             missing_boroughs.append(borough_name)
 
-    logger.info("Scraping 77 precinct files...")
+    logger.info(f"Scraping {len(PRECINCTS)} precinct files...")
     precinct_count = 0
     for pct in PRECINCTS:
         p_content = download_excel(f"cs-en-us-{pct:03d}pct.xlsx")
@@ -307,11 +311,18 @@ def main():
             result[f"{get_ordinal(pct)} Precinct"] = parse_compstat_excel(p_content, f"{get_ordinal(pct)} Precinct")
             precinct_count += 1
 
-    # Validation: refuse to overwrite good data with a partial scrape. A silent NYPD URL
-    # rename (e.g. the Brooklyn pbbkn->pbbn change) previously dropped boroughs unnoticed.
+    # Validation: refuse to overwrite good data with a partial or stale scrape.
+    # Two silent-failure modes we've hit before:
+    #  1) NYPD renames a workbook (e.g. Brooklyn pbbkn->pbbn) so a file that should exist
+    #     is silently skipped as a 404.
+    #  2) NYPD leaves an old workbook online after retiring it (e.g. pbbx.xlsx after the
+    #     Bronx split) so it returns 200 with a stale report_period. Only per-file
+    #     week_end parity with citywide catches this.
     captured_boroughs = len(BOROUGH_FILES) - len(missing_boroughs)
-    MIN_PRECINCTS = 70  # NYPD publishes ~77; tolerate a few transient 404s but not a wholesale failure.
+    MIN_PRECINCTS = 70
     errors = []
+    warnings_list = []
+
     if missing_boroughs:
         errors.append(f"missing {len(missing_boroughs)} of {len(BOROUGH_FILES)} patrol boroughs: {', '.join(missing_boroughs)} "
                       f"(check whether NYPD renamed their workbook files at {BASE_URL})")
@@ -319,12 +330,56 @@ def main():
         errors.append(f"only {precinct_count} of {len(PRECINCTS)} precinct files scraped (expected >= {MIN_PRECINCTS})")
     if not result.get("citywide", {}).get("seven_major_felonies"):
         errors.append("citywide data is missing its seven_major_felonies block")
+
+    citywide_week = result.get("citywide", {}).get("report_period", {}).get("week_end", "").strip()
+    if not citywide_week:
+        errors.append("citywide file has no parseable Report Covering period")
+    else:
+        # (c) week_end parity across every geography. A file whose week_end trails the citywide
+        # file is a silent-stale case (200 OK but yesterday's data) and must fail.
+        stale_geos = []
+        for key, geo in result.items():
+            if key == "citywide": continue
+            geo_week = (geo or {}).get("report_period", {}).get("week_end", "").strip()
+            if geo_week and geo_week != citywide_week:
+                stale_geos.append(f"{key} ({geo_week})")
+        if stale_geos:
+            preview = stale_geos[:5]
+            more = f" and {len(stale_geos) - 5} more" if len(stale_geos) > 5 else ""
+            errors.append(f"stale report_period on {len(stale_geos)} file(s) (citywide is {citywide_week}): {', '.join(preview)}{more}")
+
+    # (c) Precinct reconciliation: 78 precinct workbooks should sum to citywide 7-major YTD.
+    # Log the gap every run so drift is visible even when it's within tolerance.
+    try:
+        cw_ytd = int(result["citywide"]["total_seven_major"].get("year_to_date", {}).get("current_year", 0) or 0)
+        precinct_ytd = 0
+        for pct in PRECINCTS:
+            k = f"{get_ordinal(pct)} Precinct"
+            if k not in result: continue
+            seven = result[k].get("seven_major_felonies", {})
+            for _, stats in seven.items():
+                v = (stats or {}).get("year_to_date", {}).get("current_year")
+                if isinstance(v, (int, float)):
+                    precinct_ytd += int(v)
+        if cw_ytd > 0:
+            gap = precinct_ytd - cw_ytd
+            gap_pct = 100.0 * gap / cw_ytd
+            logger.info(f"Precinct reconciliation: precinct sum={precinct_ytd:,}, citywide={cw_ytd:,}, gap={gap:+,} ({gap_pct:+.2f}%)")
+            # Tolerate small rounding / classification differences; flag anything larger.
+            if abs(gap_pct) > 1.0:
+                warnings_list.append(f"precinct 7-major YTD sum ({precinct_ytd:,}) differs from citywide ({cw_ytd:,}) by {gap:+,} ({gap_pct:+.2f}%)")
+    except Exception as e:
+        warnings_list.append(f"precinct reconciliation could not be computed: {e}")
+
+    for w in warnings_list:
+        logger.warning(w)
+
     if errors:
         logger.error("Validation failed; NOT overwriting existing data:")
         for e in errors:
             logger.error(f"  - {e}")
         sys.exit(1)
-    logger.info(f"Validation passed: {captured_boroughs}/{len(BOROUGH_FILES)} boroughs, {precinct_count}/{len(PRECINCTS)} precincts.")
+    logger.info(f"Validation passed: {captured_boroughs}/{len(BOROUGH_FILES)} boroughs, {precinct_count}/{len(PRECINCTS)} precincts, all week_end={citywide_week}.")
 
     json_path = output_dir / "latest_compstat.json"
     with open(json_path, "w") as f: json.dump(result, f, indent=2)
